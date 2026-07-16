@@ -21,19 +21,24 @@ python vm.py path/to/program.vm
 
 ## Instruction Set (current)
 
-| Instruction | Effect                                      |
-|-------------|----------------------------------------------|
-| `PUSH n`    | Push integer `n` onto the stack               |
-| `POP`       | Remove the top value from the stack           |
-| `ADD`       | Pop two values, push their sum                |
+| Instruction | Effect                                                  |
+| ----------- | ------------------------------------------------------- |
+| `PUSH n`    | Push integer `n` onto the stack                         |
+| `POP`       | Remove the top value from the stack                     |
+| `ADD`       | Pop two values, push their sum                          |
 | `PRINT`     | Print the current top of the stack (does not remove it) |
 
 ## Example
 
 `add.vm`:
+
 ```
-PUSH 5
-PUSH 3
+PUSH 10
+PUSH 6
+POP
+
+PUSH 6
+
 ADD
 PRINT
 ```
