@@ -1,0 +1,8 @@
+PUSH 10
+PUSH 6
+POP
+
+PUSH 6
+
+ADD
+PRINT
