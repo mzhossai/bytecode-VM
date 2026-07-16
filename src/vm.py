@@ -12,6 +12,7 @@
      IMPORTANT maybe
      - Change the if-else chain to a hashmap
 
+    
 '''
 
 import sys
@@ -32,7 +33,7 @@ class Stack:
         if self.isEmpty():
             print("Stack Empty")
         return self.stack.pop()
-    
+
 
     def PEEK(self) -> int:
         if self.isEmpty():
@@ -82,8 +83,12 @@ for line in prog_lines:
     if opcode == "PUSH":
         program.append((opcode, int(parts[1])))
         token_counter += 1
+
+    elif opcode == "JUMP":
+        program.append((opcode, int(parts[1])))
+        token_counter += 1
     
-    elif opcode in ("POP", "PRINT", "ADD"):
+    elif opcode in ("POP", "PRINT", "ADD", "EXIT", "SUB"):
         program.append((opcode,))
         token_counter += 1
 
@@ -104,12 +109,15 @@ while program_counter < token_counter:
 
     if opcode == "PUSH":
         myStack.PUSH(instruction[1])
+        program_counter += 1
 
     elif opcode == "POP":
         myStack.POP()
+        program_counter += 1
     
     elif opcode == "PRINT":
         print(f"Testing: Just prints the top of stack -> {myStack.PEEK()}")
+        program_counter += 1
     
     elif opcode == "ADD":
         value_1 = 0
@@ -126,8 +134,34 @@ while program_counter < token_counter:
             value_2 = myStack.POP()
 
         myStack.PUSH(value_1 + value_2)
+        program_counter += 1
+
+    elif opcode == "SUB":
+        value1 = 0
+        value2 = 0
+
+        if myStack.isEmpty():
+            raise Exception(f"Stack Empty: Possible excess POP statements | Value 1: {value_1}")
+        else:
+            value1 = myStack.POP()
+
+        if myStack.isEmpty():
+            raise Exception(f"Stack Empty: Possible excess POP statements | Value 2: {value_2}")
+        else:
+            value2 = myStack.POP()
+
+
+        myStack.PUSH(value2 - value1)
+        program_counter += 1
+
+    elif opcode == "JUMP":
+        program_counter = instruction[1]
+
+
+    elif opcode == "EXIT":
+        print("Exiting Program")
+        break
     
     else:
         raise ValueError(f"Invalid Syntax: {opcode}")
         
-    program_counter += 1
