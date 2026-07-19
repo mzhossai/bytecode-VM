@@ -23,19 +23,19 @@ chain.
 python vm.py path/to/program.vm
 ```
 
-## Instruction Set (current)
+## Instruction Set
 
-| Instruction            | Effect                                                                 |
-| ----------------------- | ----------------------------------------------------------------------- |
-| `PUSH n`                | Push integer `n` onto the stack                                        |
-| `POP`                   | Remove the top value from the stack                                    |
-| `ADD`                   | Pop two values, push their sum                                         |
-| `SUB`                   | Pop two values, push the first-pushed minus the second-pushed          |
-| `PRINT`                 | Print the current top of the stack (does not remove it)                |
-| `IF_GREATER_THAN n`     | Compare top of stack to `n`; see Control Flow below                    |
-| `JUMP n`                | Jump execution to the matching `LANDING n`                             |
-| `LANDING n`             | A named jump target; no effect on its own                              |
-| `EXIT`                  | Immediately end program execution                                      |
+| Instruction         | Effect                                                        |
+| ------------------- | ------------------------------------------------------------- |
+| `PUSH n`            | Push integer `n` onto the stack                               |
+| `POP`               | Remove the top value from the stack                           |
+| `ADD`               | Pop two values, push their sum                                |
+| `SUB`               | Pop two values, push the first-pushed minus the second-pushed |
+| `PRINT`             | Print the current top of the stack (does not remove it)       |
+| `IF_GREATER_THAN n` | Compare top of stack to `n`; see Control Flow below           |
+| `JUMP n`            | Jump execution to the matching `LANDING n`                    |
+| `LANDING n`         | A named jump target; no effect on its own                     |
+| `EXIT`              | Immediately end program execution                             |
 
 ## Control Flow
 
@@ -50,6 +50,7 @@ fall through into whatever comes after it, including the matching `LANDING`.
   it to the matching `LANDING n`.
 
 Example:
+
 ```
 PUSH 3
 IF_GREATER_THAN 1
