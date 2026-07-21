@@ -36,6 +36,9 @@ def parsing_with_value(program: list, parts: list):
 def parsing_without_value(program:list, parts:list):
     program.append((parts[0],))
 
+def parsing_with_string(program: list, parts: list):
+    program.append((parts[0], parts[1]))
+
 
 
 def handle_parsing_push(program: list, parts: list):
@@ -45,6 +48,9 @@ def handle_parsing_jump(program: list, parts: list):
     parsing_with_value(program, parts)
 
 def handle_parsing_if_greater_than(program: list, parts: list):
+    parsing_with_value(program, parts)
+
+def handle_parsing_if_less_than(program: list, parts: list):
     parsing_with_value(program, parts)
 
 def handle_parsing_if_equal(program: list, parts: list):
@@ -70,10 +76,10 @@ def handle_parsing_mod(program: list, parts: list):
     parsing_without_value(program, parts)
 
 def handle_parsing_store(program: list, parts: list):
-    program.append((parts[0], int(parts[1])))
+    parsing_with_string(program, parts)
 
 def handle_parsing_load(program: list, parts: list):
-    program.append((parts[0], int(parts[1])))
+    parsing_with_string(program, parts)
 
 def handle_parsing_exit(program: list, parts: list):
     parsing_without_value(program, parts)
@@ -125,11 +131,24 @@ def handle_execution_if_greater_than(
         program_counter: int,
         variables: dict
         ) -> int:
-    if stack.PEEK() > instruction[1]:
+    if stack.POP() > instruction[1]:
         return program_counter + 2  # Skip the jump and enter the if block
     else:
         return program_counter + 1  # Jump to the Landing
     
+
+def handle_execution_if_less_than(
+        program: list,
+        instruction: tuple,
+        stack: Stack,
+        program_counter: int,
+        variables: dict
+        ) -> int:
+    if stack.POP() < instruction[1]:
+        return program_counter + 2  # Skip the jump and enter the if block
+    else:
+        return program_counter + 1  # Jump to the Landing
+
 
 def handle_execution_if_equal(
         program: list,
@@ -138,7 +157,7 @@ def handle_execution_if_equal(
         program_counter: int,
         variables: dict
         ) -> int:
-    if stack.PEEK() == instruction[1]:
+    if stack.POP() == instruction[1]:
         return program_counter + 2  # Skip the jump and enter the if block
     else:
         return program_counter + 1  # Jump to the Landing
@@ -213,7 +232,10 @@ def handle_execution_store(
         program_counter: int,
         variables: dict
         ) -> int:
+
+    print(f"Storing {instruction[1]}")
     variables[instruction[1]] = stack.POP()
+
     return program_counter + 1
 
 
